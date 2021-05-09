@@ -22,9 +22,9 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql);
+  return fetch_all_query($db, $sql, array($user_id));
 }
 
 //カートの中身を取得
@@ -47,12 +47,12 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, array($user_id, $item_id));
 
 }
 //カートに追加
@@ -112,11 +112,11 @@ function delete_cart($db, $cart_id){
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, array($cart_id));
 }
 
 //カートから購入する
@@ -143,10 +143,10 @@ function delete_user_carts($db, $user_id){
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
 
-  execute_query($db, $sql);
+  execute_query($db, $sql, array($user_id));
 }
 
 //カートの中身の合計金額
